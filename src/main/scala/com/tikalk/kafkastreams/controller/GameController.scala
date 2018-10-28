@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.{PostMapping, RequestMapping, Req
 @Controller
 class GameController {
   @PostMapping(value = Array ("/newGame"))
-  def createNewGame (@RequestParam ) : Unit = {
-
+  def createNewGame () : Unit = {
+    println("in create game")
   }
-
 }
