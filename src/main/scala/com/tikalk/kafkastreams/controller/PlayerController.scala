@@ -8,11 +8,8 @@ class PlayerController {
 
   @PostMapping(value = Array("/newPlayer"))
   @ResponseBody
-  def newPlayer(@RequestBody newPlayer: Player): String = {
-//  def newPlayer(@RequestBody newPlayer: Player): ActionResult = {
+  def newPlayer(@RequestBody newPlayer: Player): ActionResult = {
     println(newPlayer)
-//    new ActionResult(true, "Add")
-    "OK-LUKU"
+    new ActionResult(true, "Add")
   }
-
 }
