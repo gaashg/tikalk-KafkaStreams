@@ -10,6 +10,6 @@ class PlayerController {
   @ResponseBody
   def newPlayer(@RequestBody newPlayer: Player): ActionResult = {
     println(newPlayer)
-    new ActionResult(true, "Add")
+    new ActionResult(true, "Add", null)
   }
 }
