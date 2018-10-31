@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component
 @Component
 class PlayerValidator extends Validator[Player] {
   override def validate(player : Player): Boolean = {
-    player != null && player.id != null
+    val validated = player != null && player.id != null
+    println("is " + player + "valid? " + validated)
+    validated
   }
 }

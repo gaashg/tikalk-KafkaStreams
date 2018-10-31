@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation._
 
 @RestController
-@Autowired
-class PlayerController(playerValidator: Validator[Player]) {
-  //  @Resource
-  //  val playerValidator : Validator[Player]
+//@Autowired
+class PlayerController {
+    @Resource
+    val playerValidator : Validator[Player] = null
 
   @PostMapping(value = Array("/newPlayer"))
   @ResponseBody
