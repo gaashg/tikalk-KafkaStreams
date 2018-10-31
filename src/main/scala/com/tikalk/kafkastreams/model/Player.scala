@@ -1,7 +1,3 @@
 package com.tikalk.kafkastreams.model
 
-case class Player (id: String, name: String) {
-  def this() {
-    this ("", "")
-  }
-}
+case class Player(val id: String, val firstName: String, val lastName: String)

@@ -1,3 +1,5 @@
 package com.tikalk.kafkastreams.model
 
-class ActionResult (val succeeded : Boolean, val action : String, val message : String)
+import com.tikalk.kafkastreams.enums.ActionType.ActionType
+
+case class ActionResult (val succeeded : Boolean, val action : ActionType, val message : String, val any : Any)
