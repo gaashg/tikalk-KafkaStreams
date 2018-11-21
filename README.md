@@ -85,3 +85,7 @@ either of these commands can be executed in the same time
 
 8. Usage: filePath=/path/to/file/data.json kafkaHostname=localhost createTopic=false sendMessages=true topicName=Quotes partitionsNum=1 sendSleepIntervalMillis=500 
 
+
+mock data
+=========
+1. can use the following site https://www.mockaroo.com/ or any other data generator site.
