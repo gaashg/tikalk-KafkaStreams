@@ -67,3 +67,21 @@ cd kafka_2.12-2.0.1/bin
 (sudo) kafka-server-start.sh config/server.properties
 
 6. that's it :)
+
+
+kafka populator usage
+=====================
+supported parameters -
+either of these commands can be executed in the same time
+createTopic - true \ false. whether to create a new topic.
+sendMessages - true \ false. whether to send messages.
+
+topicName - the name of the topic to be used.
+filePath - the full path to the file that contains the events to send to kafka.
+sendSleepIntervalMillis - sleep time between messages sent to kafka. 0 means no sleep.
+
+kafkaHostname - the name of the kafka hostname.
+partitionsNum - the number of partitions of the new topic.
+
+Usage: filePath=/path/to/file/data.json kafkaHostname=localhost createTopic=false sendMessages=true topicName=Quotes partitionsNum=1 sendSleepIntervalMillis=500 
+
