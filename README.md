@@ -73,15 +73,15 @@ kafka populator usage
 =====================
 supported parameters -
 either of these commands can be executed in the same time
-createTopic - true \ false. whether to create a new topic.
-sendMessages - true \ false. whether to send messages.
+1. createTopic - true \ false. whether to create a new topic.
+2. sendMessages - true \ false. whether to send messages.
 
-topicName - the name of the topic to be used.
-filePath - the full path to the file that contains the events to send to kafka.
-sendSleepIntervalMillis - sleep time between messages sent to kafka. 0 means no sleep.
+3. topicName - the name of the topic to be used.
+4. filePath - the full path to the file that contains the events to send to kafka.
+5. sendSleepIntervalMillis - sleep time between messages sent to kafka. 0 means no sleep.
 
-kafkaHostname - the name of the kafka hostname.
-partitionsNum - the number of partitions of the new topic.
+6. kafkaHostname - the name of the kafka hostname.
+7. partitionsNum - the number of partitions of the new topic.
 
-Usage: filePath=/path/to/file/data.json kafkaHostname=localhost createTopic=false sendMessages=true topicName=Quotes partitionsNum=1 sendSleepIntervalMillis=500 
+8. Usage: filePath=/path/to/file/data.json kafkaHostname=localhost createTopic=false sendMessages=true topicName=Quotes partitionsNum=1 sendSleepIntervalMillis=500 
 
