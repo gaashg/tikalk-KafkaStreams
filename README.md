@@ -67,7 +67,11 @@ cd kafka_2.12-2.0.1
 
 6. sudo ./bin/kafka-server-start.sh config/server.properties
 
-7. that's it :)
+
+load quotes
+===========
+under the project root dir, there's a folder called utilities. you'll find there a jar and a json file, containing the
+basic quotes of south park.
 
 
 kafka populator
@@ -86,9 +90,9 @@ you can execute both commands in the same execution.
 5. sendSleepIntervalMillis - sendMessages command. sleep time between messages sent to kafka. 0 means no sleep.
 
 6. kafkaHostname - used for both commands. the name of the kafka hostname.
-7. partitionsNum - createTopic command. the numbr of partitions of the new topic.
+7. partitionsNum - createTopic command. the number of partitions of the new topic.
 
-8. Usage (full example): java -cp .:kafkaPopulator.jar kafkapopulator.KafkaPopulator filePath=/path/to/file/data.json  kafkaHostname=localhost createTopic=false sendMessages=true topicName=Quotes partitionsNum=1 sendSleepIntervalMillis=500 
+8. Usage (full example): java -cp .:kafkaPopulator.jar kafkapopulator.KafkaPopulator filePath=/path/to/file/south-park-dialogues.json  kafkaHostname=localhost createTopic=false sendMessages=true topicName=Quotes partitionsNum=1 sendSleepIntervalMillis=500 
 
 
 mock data

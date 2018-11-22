@@ -1,7 +1,5 @@
 package com.tikalk.kafkastreams.services
 
-import java.util.Calendar
-
 import com.tikalk.kafkastreams.enums.ActionType
 import com.tikalk.kafkastreams.model.{ActionResult, Quote}
 import com.tikalk.kafkastreams.utils.UUIDGenerator
