@@ -91,8 +91,6 @@ you can execute both commands in the same execution.
 8. Usage (full example): java -cp .:kafkaPopulator.jar kafkapopulator.KafkaPopulator filePath=/path/to/file/data.json 
 
 
-
-
 mock data
 =========
 1. can use the following site https://www.mockaroo.com/ or any other data generator site.
