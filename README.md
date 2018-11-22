@@ -45,8 +45,10 @@ dataDir=/the/path/you/chose/zookeeper-3.4.13/data
 
 10. save the file.
 
-11. to start zookeeper execute:
-sudo bin/zkServer.sh start
+11. cd .. 
+
+12. to start zookeeper execute:
+sudo ./bin/zkServer.sh start
 
 
 kafka
@@ -61,9 +63,9 @@ https://kafka.apache.org/downloads
 4. sudo tar -xvf kafka_2.12-2.0.1.tgz
 
 5. to start kafka:
-cd kafka_2.12-2.0.1/bin
+cd kafka_2.12-2.0.1
 
-6. sudo kafka-server-start.sh config/server.properties
+6. sudo ./bin/kafka-server-start.sh config/server.properties
 
 7. that's it :)
 
