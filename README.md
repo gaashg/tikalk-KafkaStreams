@@ -45,10 +45,10 @@ dataDir=/the/path/you/chose/zookeeper-3.4.13/data
 
 10. save the file.
 
-11. cd .. 
+11. to start zookeeper execute:
+cd .. 
 
-12. to start zookeeper execute:
-sudo ./bin/zkServer.sh start
+12. sudo ./bin/zkServer.sh start
 
 
 kafka
