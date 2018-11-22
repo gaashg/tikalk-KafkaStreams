@@ -72,12 +72,13 @@ load quotes
 ===========
 under the project root dir, there's a folder called utilities. you'll find there a jar and a json file, containing the
 basic quotes of south park.
+load it into a topic called Quotes, using the kafka populator (see below).
 
 
 kafka populator
 ===============
 in the resources folder, there's a jar that can be used to send messages to a kafka topic.
-execution command: 
+execution command (the short version, with no arguments. see example for arguments): 
 java -cp .:kafkaPopulator.jar kafkapopulator.KafkaPopulator
 
 supported parameters -
