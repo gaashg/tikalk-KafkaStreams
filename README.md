@@ -1,5 +1,4 @@
 # tikalk-KafkaStreams fuzeDay preparations:
-===========================================
 
 
 git repository
