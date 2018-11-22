@@ -88,7 +88,7 @@ you can execute both commands in the same execution.
 6. kafkaHostname - used for both commands. the name of the kafka hostname.
 7. partitionsNum - createTopic command. the numbr of partitions of the new topic.
 
-8. Usage (full example): java -cp .:kafkaPopulator.jar kafkapopulator.KafkaPopulator filePath=/path/to/file/data.json 
+8. Usage (full example): java -cp .:kafkaPopulator.jar kafkapopulator.KafkaPopulator filePath=/path/to/file/data.json  kafkaHostname=localhost createTopic=false sendMessages=true topicName=Quotes partitionsNum=1 sendSleepIntervalMillis=500 
 
 
 mock data
