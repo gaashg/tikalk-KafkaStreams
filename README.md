@@ -62,9 +62,10 @@ https://kafka.apache.org/downloads
 
 5. to start kafka:
 cd kafka_2.12-2.0.1/bin
-sudo kafka-server-start.sh config/server.properties
 
-6. that's it :)
+6. sudo kafka-server-start.sh config/server.properties
+
+7. that's it :)
 
 
 kafka populator
