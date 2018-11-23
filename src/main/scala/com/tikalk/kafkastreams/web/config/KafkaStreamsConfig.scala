@@ -1,4 +1,4 @@
-package com.tikalk.kafkastreams.config
+package com.tikalk.kafkastreams.web.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule

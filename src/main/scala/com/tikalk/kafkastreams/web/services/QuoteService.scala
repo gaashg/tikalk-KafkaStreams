@@ -1,8 +1,8 @@
-package com.tikalk.kafkastreams.services
+package com.tikalk.kafkastreams.web.services
 
-import com.tikalk.kafkastreams.enums.ActionType
-import com.tikalk.kafkastreams.model.{ActionResult, Quote}
-import com.tikalk.kafkastreams.utils.UUIDGenerator
+import com.tikalk.kafkastreams.web.enums.ActionType
+import com.tikalk.kafkastreams.common.model.{ActionResult, Quote}
+import com.tikalk.kafkastreams.common.utils.UUIDGenerator
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.stereotype.Component
 

@@ -1,7 +1,7 @@
-package com.tikalk.kafkastreams.validations
+package com.tikalk.kafkastreams.web.validations
 
-import com.tikalk.kafkastreams.model.Quote
-import com.tikalk.kafkastreams.traits.Validator
+import com.tikalk.kafkastreams.common.model.Quote
+import com.tikalk.kafkastreams.web.traits.Validator
 import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Component
 

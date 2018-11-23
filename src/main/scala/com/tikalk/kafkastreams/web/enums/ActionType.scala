@@ -1,4 +1,4 @@
-package com.tikalk.kafkastreams.enums
+package com.tikalk.kafkastreams.web.enums
 
 object ActionType extends Enumeration {
   type ActionType = Value

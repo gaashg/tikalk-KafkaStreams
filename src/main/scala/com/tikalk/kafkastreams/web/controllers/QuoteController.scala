@@ -1,13 +1,13 @@
-package com.tikalk.kafkastreams.controllers
+package com.tikalk.kafkastreams.web.controllers
 
 import javax.annotation.Resource
 
-import com.tikalk.kafkastreams.enums.ActionType
-import com.tikalk.kafkastreams.model.{ActionResult, Quote}
+import com.tikalk.kafkastreams.web.enums.ActionType
+import com.tikalk.kafkastreams.common.model.{ActionResult, Quote}
 import javax.validation.Valid
 import javax.validation.constraints.NotNull
 
-import com.tikalk.kafkastreams.services.QuoteService
+import com.tikalk.kafkastreams.web.services.QuoteService
 import org.springframework.web.bind.annotation.{PostMapping, RequestBody, ResponseBody, RestController}
 
 @RestController

@@ -1,8 +1,8 @@
-package com.tikalk.kafkastreams.controllers
+package com.tikalk.kafkastreams.web.controllers
 
-import com.tikalk.kafkastreams.enums.ActionType
-import com.tikalk.kafkastreams.model.ActionResult
-import com.tikalk.kafkastreams.traits.Validator
+import com.tikalk.kafkastreams.web.enums.ActionType
+import com.tikalk.kafkastreams.common.model.ActionResult
+import com.tikalk.kafkastreams.web.traits.Validator
 import javax.annotation.Resource
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.web.bind.annotation._
