@@ -13,5 +13,5 @@ libraryDependencies += "org.apache.kafka" % "kafka-clients" % "2.1.0"
 libraryDependencies += "org.apache.kafka" % "kafka-streams" % "2.1.0"
 libraryDependencies += {
   sys.props += "packaging.type" -> "jar"
-  "org.apache.kafka" %% "kafka-streams-scala" % "2.0.0" withSources()
+  "org.apache.kafka" %% "kafka-streams-scala" % "2.1.0" withSources()
 }
