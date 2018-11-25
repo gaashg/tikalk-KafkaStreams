@@ -1,34 +1,47 @@
 package com.tikalk.kafkastreams.streams.statistics
 
+import java.time.Duration
+
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.tikalk.kafkastreams.common.model.Player
+import com.tikalk.kafkastreams.common.utils.GeneralFactory
 import com.tikalk.kafkastreams.streams.utils.StreamsUtils
-import javax.annotation.Resource
-import org.apache.kafka.streams.scala.{Serdes, StreamsBuilder}
-import org.apache.kafka.streams.scala.kstream.{Consumed, Grouped, KStream, Materialized}
+import javax.annotation.{PostConstruct, Resource}
+import org.apache.kafka.streams.KafkaStreams
+import org.apache.kafka.streams.scala.kstream.{Consumed, Grouped, Materialized}
+import org.apache.kafka.streams.scala.{ByteArrayKeyValueStore, Serdes, StreamsBuilder}
 import org.springframework.stereotype.Service
+
 
 @Service
 class StatisticsStreamsService {
-  private var _playerNum : Int = 0
+  private var _playerNum: Int = 0
   @Resource
-  private var objectMapper : ObjectMapper = null
+  private var objectMapper: ObjectMapper = null
 
   def playerNum = _playerNum
 
-  def countPlayersNum () : Unit = {
-    val properties = StreamsUtils.initProperties()
-    implicit val groupedStringIntSerdes = Grouped.`with`(Serdes.String, Serdes.Integer)
+  @PostConstruct
+  def countPlayersNum(): Unit = {
+    val props = StreamsUtils.initProperties()
+    implicit val stringSerde = Serdes.String
+    implicit val intSerde = Serdes.Integer
+    implicit val longSerde = Serdes.Long
+    implicit val consumedStringSerdes = Consumed.`with`(Serdes.String, Serdes.String)
+    implicit val groupedIntsSerdes = Grouped.`with`(Serdes.Integer, Serdes.Integer)
+    implicit val materializedIntsSerdes = Materialized.`with`[Int, Long, ByteArrayKeyValueStore]
+
     val builder = new StreamsBuilder
-    val playersStream = [String, String] = builder.stream[String, String]("Players")(Consumed.`with`(Serdes.String, Serdes.String))
-      .groupBy((_, player) => "1")(Grouped.`with`(Serdes.String, Serdes.String))
-//      .map((key, player) => ("1", 1))
-//      .groupByKey(Grouped.`with`(Serdes.String, Serdes.Integer))
-      .count()(Materialized.`with`(Serdes.String, Serdes.Integer))
+    val playersStream = builder.stream[String, String]("Players")
+      .map((key, playerJson) => (GeneralFactory.getObjectMapper().readValue(playerJson, classOf[Player]).age, 1))
+      .groupByKey(groupedIntsSerdes)
+      .count()(materializedIntsSerdes)
 
-//      .count()(Materialized.`with`(Serdes.String, Serdes.Integer))
+    val streams = new KafkaStreams(builder.build(), props)
+    streams.start()
 
-
+    sys.ShutdownHookThread {
+      streams.close(Duration.ofSeconds(10))
+    }
   }
-
 }
