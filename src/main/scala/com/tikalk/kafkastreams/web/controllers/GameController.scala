@@ -1,6 +1,6 @@
 package com.tikalk.kafkastreams.web.controllers
 
-import com.tikalk.kafkastreams.common.model.{Game, Player}
+import com.tikalk.kafkastreams.common.model.{Game}
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation._
