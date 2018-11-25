@@ -15,7 +15,7 @@ class KafkaStreamsConfig {
 
   import org.springframework.beans.factory.annotation.Value
 
-  @Value("${kafka.bootstrap.servers}") private val bootstrapServers = null
+  @Value("${kafka.bootstrap.servers}") private val bootstrapServers : String = null
 
   import org.apache.kafka.clients.producer.ProducerConfig
   import org.springframework.context.annotation.Bean

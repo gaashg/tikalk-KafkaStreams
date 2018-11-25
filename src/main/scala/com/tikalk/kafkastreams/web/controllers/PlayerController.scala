@@ -20,7 +20,7 @@ class PlayerController {
   @PostMapping(path = Array("/newPlayer"))
   @ResponseBody
   def createNewPlayer(@QueryParam(value = "name") name: String, @QueryParam(value = "age") age: Int): Unit = {
-    val player = new Player(UUIDGenerator.generateUUID, (new Date()).getTime, name, age)
+    val player = new Player(UUIDGenerator.generateUUID, System.currentTimeMillis(), name, age)
     kafkaTemplate.send(Player.TOPIC_NAME,player.toString)
     println(s"in create new player $name")
     new ActionResult(true, ActionType.ADD_NEW_QUOTE, player.toString, AnyRef)
