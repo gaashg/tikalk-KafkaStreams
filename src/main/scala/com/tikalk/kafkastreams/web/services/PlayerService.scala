@@ -15,15 +15,15 @@ class PlayerService {
   import org.apache.kafka.streams.scala.ImplicitConversions._
 
   @PostConstruct
-  def start(): Unit ={
-    val builder = new StreamsBuilder()
-    val textLines: KStream[String, String] = builder.stream[String, String](Player.TOPIC_NAME)
-    val wordCounts: KTable[String, Long] = textLines
-      .flatMapValues(textLine => textLine.toLowerCase.split("\\W+"))
-      .groupBy((_, word) => word)
-      .count()
-    wordCounts.toStream.to("streams-wordcount-output")  }
-
+  def start(): Unit = {
+//    val builder = new StreamsBuilder()
+//    val textLines: KStream[String, String] = builder.stream[String, String](Player.TOPIC_NAME)
+//    val wordCounts: KTable[String, Long] = textLines
+//      .flatMapValues(textLine => textLine.toLowerCase.split("\\W+"))
+//      .groupBy((_, word) => word)
+//      .count()
+//    wordCounts.toStream.to("streams-wordcount-output")
+  }
 
 
 }
