@@ -6,7 +6,7 @@ import org.apache.kafka.streams.StreamsConfig.{APPLICATION_ID_CONFIG, BOOTSTRAP_
 
 object StreamsUtils {
 
-  def initProperties (streamName : String): Properties ={
+  def initProperties (): Properties ={
     val streamsConfig = new Properties()
     streamsConfig.put(APPLICATION_ID_CONFIG, "who's-line-is-it")
     streamsConfig.put(BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
