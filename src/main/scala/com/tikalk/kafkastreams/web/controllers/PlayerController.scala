@@ -1,7 +1,5 @@
 package com.tikalk.kafkastreams.web.controllers
 
-import java.util.Date
-
 import com.tikalk.kafkastreams.common.model.{ActionResult, Player}
 import com.tikalk.kafkastreams.common.utils.UUIDGenerator
 import com.tikalk.kafkastreams.web.enums.ActionType
@@ -15,13 +13,13 @@ import org.springframework.web.bind.annotation._
 class PlayerController {
   val logger: Logger = LoggerFactory.getLogger(classOf[PlayerController])
 
-  @Autowired val kafkaTemplate: KafkaTemplate[Integer, String] = null
+  @Autowired val playerKafkaTemplate: KafkaTemplate[String, Player] = null
 
   @PostMapping(path = Array("/newPlayer"))
   @ResponseBody
   def createNewPlayer(@QueryParam(value = "name") name: String, @QueryParam(value = "age") age: Int): Unit = {
     val player = new Player(UUIDGenerator.generateUUID, System.currentTimeMillis(), name, age)
-    kafkaTemplate.send(Player.TOPIC_NAME,player.toString)
+    playerKafkaTemplate.send(Player.TOPIC_NAME, player)
     println(s"in create new player $name")
     new ActionResult(true, ActionType.ADD_NEW_QUOTE, player.toString, AnyRef)
 
