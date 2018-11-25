@@ -30,11 +30,11 @@ class KafkaStreamsConfig {
   import org.apache.kafka.clients.producer.internals.Sender
   import org.springframework.context.annotation.Bean
 
-  @Bean def producerFactory = new Nothing(producerConfig)
-
-  @Bean def kafkaTemplate = new Nothing(producerFactory)
-
-  @Bean def sender = new Sender(kafkaTemplate)
+//  @Bean def producerFactory = new DefaultKafkaProducerFactory<Integer, String>(producerConfig())
+//
+//  @Bean def kafkaTemplate = new Nothing(producerFactory)
+//
+//  @Bean def sender = new Sender(kafkaTemplate)
 
   @Bean
   def mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter = {
