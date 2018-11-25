@@ -8,7 +8,7 @@ object StreamsUtils {
 
   def initProperties (): Properties ={
     val streamsConfig = new Properties()
-    streamsConfig.put(APPLICATION_ID_CONFIG, "who's-line-is-it")
+    streamsConfig.put(APPLICATION_ID_CONFIG, "whos-line-is-it")
     streamsConfig.put(BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
     streamsConfig
   }
