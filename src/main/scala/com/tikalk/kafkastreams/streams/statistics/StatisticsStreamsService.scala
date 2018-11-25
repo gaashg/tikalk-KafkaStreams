@@ -4,14 +4,15 @@ import java.time.Duration
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.tikalk.kafkastreams.common.model.Player
-import com.tikalk.kafkastreams.common.utils.GeneralFactory
 import com.tikalk.kafkastreams.streams.utils.StreamsUtils
+import com.tikalk.kafkastreams.web.config.PlayerEntitySerde
 import javax.annotation.{PostConstruct, Resource}
+import org.apache.kafka.common.serialization.Serde
 import org.apache.kafka.streams.KafkaStreams
 import org.apache.kafka.streams.kstream.Printed
 import org.apache.kafka.streams.scala.kstream.{Consumed, Grouped, Materialized, Produced}
 import org.apache.kafka.streams.scala.{ByteArrayKeyValueStore, Serdes, StreamsBuilder}
-import org.slf4j.{Logger, LoggerFactory}
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 
@@ -32,14 +33,15 @@ class StatisticsStreamsService {
     implicit val stringSerde = Serdes.String
     implicit val intSerde = Serdes.Integer
     implicit val longSerde = Serdes.Long
-    implicit val consumedStringSerdes = Consumed.`with`(Serdes.String, Serdes.String)
+    implicit val playerSerde: Serde[Player] = new PlayerEntitySerde
+    implicit val consumedStringSerdes = Consumed.`with`(Serdes.String, playerSerde)
     implicit val groupedIntsSerdes = Grouped.`with`(Serdes.Integer, Serdes.Integer)
     implicit val materializedIntsSerdes = Materialized.`with`[Int, Long, ByteArrayKeyValueStore]
     implicit val producedAgeSerdes = Produced.`with`[Int, Long]
 
     val builder = new StreamsBuilder
-    val playersStream = builder.stream[String, String]("Players")
-      .map((key, playerJson) => (GeneralFactory.getObjectMapper().readValue(playerJson, classOf[Player]).age, 1))
+    val playersStream = builder.stream[String, Player](Player.TOPIC_NAME)
+      .map((key, player) => (player.age, 1))
       .groupByKey(groupedIntsSerdes)
       .count()(materializedIntsSerdes)
       .toStream
