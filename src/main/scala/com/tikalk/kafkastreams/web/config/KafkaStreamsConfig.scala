@@ -8,8 +8,6 @@ import com.tikalk.kafkastreams.common.model.{BaseEntity, Game, Player}
 import com.tikalk.kafkastreams.common.utils.JsonSerializer
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.common.serialization.StringSerializer
-import org.apache.kafka.streams.KafkaStreams
-import org.apache.kafka.streams.scala.StreamsBuilder
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
@@ -47,12 +45,6 @@ class KafkaStreamsConfig {
 
   @Bean
   def playerProducerFactory = new KafkaProducer[String, Player](producerConfig)
-
-  @Bean
-  def playerStream = {
-    val builder: StreamsBuilder = new StreamsBuilder
-    new KafkaStreams(builder.build(), producerConfig)
-  }
 
   @Bean
   def gameProducerFactory = new KafkaProducer[String, Game](producerConfig)
