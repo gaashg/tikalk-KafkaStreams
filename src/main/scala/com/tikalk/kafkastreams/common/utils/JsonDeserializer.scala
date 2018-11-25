@@ -5,12 +5,12 @@ import java.util
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.tikalk.kafkastreams.common.model.BaseEntity
-import org.apache.kafka.common.serialization.Serializer
+import org.apache.kafka.common.serialization.Deserializer
 
-class JsonSerializer[A <: BaseEntity] extends Serializer[A] {
+abstract class JsonDeserializer[A <: BaseEntity] extends Deserializer[A] {
   override def configure(configs: util.Map[String, _], isKey: Boolean): Unit = {}
 
-   def objectMapper(): ObjectMapper = {
+  def objectMapper(): ObjectMapper = {
     val objectMapper = new ObjectMapper()
     objectMapper.registerModule(DefaultScalaModule)
     import com.fasterxml.jackson.databind.DeserializationFeature
@@ -18,9 +18,6 @@ class JsonSerializer[A <: BaseEntity] extends Serializer[A] {
     objectMapper
   }
 
-  override def serialize(topic: String, data: A): Array[Byte] = {
-    objectMapper.writeValueAsString(data).getBytes
-  }
-
   override def close(): Unit = {}
+
 }

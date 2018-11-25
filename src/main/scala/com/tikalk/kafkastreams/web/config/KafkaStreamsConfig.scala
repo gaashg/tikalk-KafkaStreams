@@ -1,11 +1,15 @@
 package com.tikalk.kafkastreams.web.config
 
+import java.util.Properties
+
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
-import com.tikalk.kafkastreams.common.model.{Game, Player}
+import com.tikalk.kafkastreams.common.model.{BaseEntity, Game, Player}
 import com.tikalk.kafkastreams.common.utils.JsonSerializer
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.common.serialization.StringSerializer
+import org.apache.kafka.streams.KafkaStreams
+import org.apache.kafka.streams.scala.StreamsBuilder
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
@@ -17,17 +21,20 @@ class KafkaStreamsConfig {
 
   import org.springframework.beans.factory.annotation.Value
 
-  @Value("${kafka.bootstrap.servers}") private val bootstrapServers : String = null
+  @Value("${kafka.bootstrap.servers}") private val bootstrapServers: String = null
 
   import org.apache.kafka.clients.producer.ProducerConfig
   import org.springframework.context.annotation.Bean
 
-  @Bean def producerConfig: Map[String, AnyRef] = {
-    Map(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG -> bootstrapServers,
-      ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG -> classOf[StringSerializer],
-      ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG -> classOf[JsonSerializer],
-      ProducerConfig.MAX_BLOCK_MS_CONFIG -> Int.box(5000)
-    )
+  @Bean def producerConfig: Properties = {
+    val prop = new Properties()
+    prop.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
+    prop.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, classOf[StringSerializer])
+    prop.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, classOf[JsonSerializer[BaseEntity]])
+    prop.put(ProducerConfig.MAX_BLOCK_MS_CONFIG, Int.box(5000))
+    prop.put("application.id", "abc")
+
+    prop
   }
 
   @Bean def objectMapper(): ObjectMapper = {
@@ -38,14 +45,17 @@ class KafkaStreamsConfig {
     objectMapper
   }
 
-
-  import scala.collection.JavaConverters._
+  @Bean
+  def playerProducerFactory = new KafkaProducer[String, Player](producerConfig)
 
   @Bean
-  def playerProducerFactory = new KafkaProducer[String, Player](producerConfig.asJava)
+  def playerStream = {
+    val builder: StreamsBuilder = new StreamsBuilder
+    new KafkaStreams(builder.build(), producerConfig)
+  }
 
   @Bean
-  def gameProducerFactory = new KafkaProducer[String, Game](producerConfig.asJava)
+  def gameProducerFactory = new KafkaProducer[String, Game](producerConfig)
 
   @Bean
   def mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter = {
