@@ -10,6 +10,31 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 @SpringBootApplication
 @ComponentScan (Array("com.tikalk.kafkastreams"))
 class KafkaStreamsConfig {
+
+  import org.springframework.beans.factory.annotation.Value
+
+  @Value("${kafka.bootstrap.servers}") private val bootstrapServers = null
+
+  import org.apache.kafka.clients.producer.ProducerConfig
+  import org.springframework.context.annotation.Bean
+
+  @Bean def producerConfig: Map[String, Object] = {
+    Map(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG -> bootstrapServers,
+      ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG-> classOf[Nothing],
+      ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG -> classOf[Nothing],
+      ProducerConfig.MAX_BLOCK_MS_CONFIG -> 5000
+    )
+  }
+
+  import org.apache.kafka.clients.producer.internals.Sender
+  import org.springframework.context.annotation.Bean
+
+  @Bean def producerFactory = new Nothing(producerConfig)
+
+  @Bean def kafkaTemplate = new Nothing(producerFactory)
+
+  @Bean def sender = new Sender(kafkaTemplate)
+
   @Bean
   def mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter = {
     val mapping = new MappingJackson2HttpMessageConverter
@@ -20,4 +45,6 @@ class KafkaStreamsConfig {
     mapping.setObjectMapper(objectMapper)
     mapping
   }
+
+
 }
