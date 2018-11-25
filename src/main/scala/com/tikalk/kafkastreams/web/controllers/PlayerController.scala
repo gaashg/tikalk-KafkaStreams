@@ -7,16 +7,21 @@ import com.tikalk.kafkastreams.common.utils.UUIDGenerator
 import com.tikalk.kafkastreams.web.enums.ActionType
 import javax.ws.rs.QueryParam
 import org.slf4j.{Logger, LoggerFactory}
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.web.bind.annotation._
 
 @RestController
 class PlayerController {
   val logger: Logger = LoggerFactory.getLogger(classOf[PlayerController])
 
-  @PostMapping(path = Array("/newPlayer") )
+  @Autowired val kafkaTemplate: KafkaTemplate[Integer, String] = null
+
+  @PostMapping(path = Array("/newPlayer"))
   @ResponseBody
-  def createNewPlayer(@QueryParam name : String, @QueryParam age : Int): Unit = {
-    val player = new Player(UUIDGenerator.generateUUID,(new Date()).getTime,name,age)
+  def createNewPlayer(@QueryParam(value = "name") name: String, @QueryParam(value = "age") age: Int): Unit = {
+    val player = new Player(UUIDGenerator.generateUUID, (new Date()).getTime, name, age)
+    kafkaTemplate.send(Player.TOPIC_NAME,player.toString)
     println(s"in create new player $name")
     new ActionResult(true, ActionType.ADD_NEW_QUOTE, player.toString, AnyRef)
 
