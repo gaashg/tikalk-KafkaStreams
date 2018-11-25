@@ -6,24 +6,25 @@ import org.apache.kafka.common.serialization.{IntegerSerializer, StringSerialize
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+import org.springframework.kafka.core.{DefaultKafkaProducerFactory, KafkaTemplate}
 
 
 @SpringBootApplication
-@ComponentScan (Array("com.tikalk.kafkastreams"))
+@ComponentScan(Array("com.tikalk.kafkastreams"))
 class KafkaStreamsConfig {
 
   import org.springframework.beans.factory.annotation.Value
 
-  @Value("${kafka.bootstrap.servers}") private val bootstrapServers = null
+  @Value("${kafka.bootstrap.servers}") private val bootstrapServers : String = null
 
   import org.apache.kafka.clients.producer.ProducerConfig
   import org.springframework.context.annotation.Bean
 
-  @Bean def producerConfig: Map[String, Object] = {
+  @Bean def producerConfig: Map[String, AnyRef] = {
     Map(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG -> bootstrapServers,
-      ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG-> classOf[IntegerSerializer],
+      ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG -> classOf[IntegerSerializer],
       ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG -> classOf[StringSerializer],
-      ProducerConfig.MAX_BLOCK_MS_CONFIG -> 5000
+      ProducerConfig.MAX_BLOCK_MS_CONFIG -> Int.box(5000)
     )
   }
 
@@ -37,11 +38,9 @@ class KafkaStreamsConfig {
 
   import org.springframework.context.annotation.Bean
 
-//  @Bean def producerFactory = new DefaultKafkaProducerFactory<Integer, String>(producerConfig())
-//
-//  @Bean def kafkaTemplate = new Nothing(producerFactory)
-//
-//  @Bean def sender = new Sender(kafkaTemplate)
+  @Bean def producerFactory = new DefaultKafkaProducerFactory[Integer, String](producerConfig.asJava)
+
+  @Bean def kafkaTemplate = new KafkaTemplate[Integer, String](producerFactory)
 
   @Bean
   def mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter = {
@@ -49,4 +48,6 @@ class KafkaStreamsConfig {
     mapping.setObjectMapper(objectMapper())
     mapping
   }
+
+
 }
