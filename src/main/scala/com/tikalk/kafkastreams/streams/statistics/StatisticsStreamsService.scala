@@ -15,15 +15,18 @@ import org.apache.kafka.streams.scala.{ByteArrayKeyValueStore, Serdes, StreamsBu
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
+import scala.collection.{immutable, mutable}
+
 
 @Service
 class StatisticsStreamsService {
   private val logger = LoggerFactory.getLogger(classOf[StatisticsStreamsService])
-  private var _playerNum: Int = 0
+  private var _agesMap = Map[Int, Long]()
+
   @Resource
   private var objectMapper: ObjectMapper = null
 
-  def playerNum = _playerNum
+  def agesMap = _agesMap
 
   @PostConstruct
   def countPlayersAge(): Unit = {
@@ -46,10 +49,12 @@ class StatisticsStreamsService {
       .count()(materializedIntsSerdes)
       .toStream
       .through("Age")
-      .print(Printed.toSysOut[Int, Long])
+      .foreach((age, count) => {
+        _agesMap += (age -> count)
+      })
 
     logger.info("Results:")
-//    print(playersStream.)
+    //    print(playersStream.)
 
     val streams = new KafkaStreams(builder.build(), props)
     streams.cleanUp()
