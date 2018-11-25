@@ -2,6 +2,7 @@ package com.tikalk.kafkastreams.web.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
+import org.apache.kafka.common.serialization.{IntegerSerializer, StringSerializer}
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.{Bean, ComponentScan}
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
@@ -20,8 +21,8 @@ class KafkaStreamsConfig {
 
   @Bean def producerConfig: Map[String, Object] = {
     Map(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG -> bootstrapServers,
-      ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG-> classOf[Nothing],
-      ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG -> classOf[Nothing],
+      ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG-> classOf[IntegerSerializer],
+      ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG -> classOf[StringSerializer],
       ProducerConfig.MAX_BLOCK_MS_CONFIG -> 5000
     )
   }
