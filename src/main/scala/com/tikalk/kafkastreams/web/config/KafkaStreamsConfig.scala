@@ -2,11 +2,12 @@ package com.tikalk.kafkastreams.web.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
+import com.tikalk.kafkastreams.common.model.Player
+import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.common.serialization.{IntegerSerializer, StringSerializer}
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
-import org.springframework.kafka.core.{DefaultKafkaProducerFactory, KafkaTemplate}
 
 
 @SpringBootApplication
@@ -36,11 +37,12 @@ class KafkaStreamsConfig {
     objectMapper
   }
 
-  import org.springframework.context.annotation.Bean
 
-  @Bean def producerFactory = new DefaultKafkaProducerFactory[Integer, String](producerConfig.asJava)
+  import scala.collection.JavaConverters._
 
-  @Bean def kafkaTemplate = new KafkaTemplate[Integer, String](producerFactory)
+  @Bean def producerFactory = new KafkaProducer[String, Player](producerConfig.asJava)
+//
+//  @Bean def kafkaTemplate = new KafkaTemplate[Integer, String](producerFactory)
 
   @Bean
   def mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter = {
