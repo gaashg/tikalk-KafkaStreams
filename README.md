@@ -99,3 +99,6 @@ you can execute both commands in the same execution.
 mock data
 =========
 1. can use the following site https://www.mockaroo.com/ or any other data generator site.
+
+create player:
+curl -X POST "localhost:8080/newPlayer?name=chaim1&age=44"
