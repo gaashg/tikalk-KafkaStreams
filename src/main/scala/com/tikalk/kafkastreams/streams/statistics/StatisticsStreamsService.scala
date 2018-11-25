@@ -26,6 +26,10 @@ class StatisticsStreamsService {
   def playerNum = _playerNum
 
   @PostConstruct
+  def stats() = {
+    countPlayersAge()
+  }
+
   def countPlayersAge(): Unit = {
     logger.info("Counting players' age")
 

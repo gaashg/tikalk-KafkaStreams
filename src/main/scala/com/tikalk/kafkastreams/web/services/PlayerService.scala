@@ -10,7 +10,7 @@ import org.apache.kafka.common.serialization.Serde
 import org.apache.kafka.streams.KafkaStreams
 import org.apache.kafka.streams.kstream.Printed
 import org.apache.kafka.streams.scala.StreamsBuilder
-import org.apache.kafka.streams.scala.kstream.KStream
+import org.apache.kafka.streams.scala.kstream.{KStream, KTable}
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -32,18 +32,22 @@ class PlayerService {
     val builder = new StreamsBuilder()
     implicit val playerSerde: Serde[Player] = new PlayerEntitySerde
 
-    val players: KStream[String, Player] = builder.stream[String, Player](Player.TOPIC_NAME)
+//    val players: KStream[String, Player] = builder.stream[String, Player](Player.TOPIC_NAME)
     //    players.print(Printed.toSysOut)
 
-    val wordCounts = players
-      .filter((s, p) => p.name.length > 2)
-      .groupBy((_, word) => word.name)
-      .count()
-      .toStream
-//      .print(Printed.toSysOut())
-      .to("player-count")
+//    val wordCounts = players
+//      .filter((s, p) => p.age > 40)
+//      .groupBy((_, word) => word.age)
+//      .count()
+//      .toStream
+      //      .foreach()
+//            .print(Printed.toSysOut())
+//      .to("player-count")
 
-    //    val playerTables: KTable[String, Player] = builder.table[String, Player](Player.TOPIC_NAME)
+    val playerTables: KTable[String, Player] = builder.table[String, Player](Player.TOPIC_NAME)
+    playerTables.toStream
+      .print(Printed.toSysOut())
+//      .foreach()
     //    val res = playerTables
     //      .filter((s, p) => s.length > 10)
     //
