@@ -2,7 +2,7 @@ package com.tikalk.kafkastreams.web.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
-import com.tikalk.kafkastreams.common.model.Player
+import com.tikalk.kafkastreams.common.model.{Game, Player}
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.common.serialization.{IntegerSerializer, StringSerializer}
 import org.apache.kafka.connect.json.JsonSerializer
@@ -41,7 +41,11 @@ class KafkaStreamsConfig {
 
   import scala.collection.JavaConverters._
 
-  @Bean def playerProducerFactory = new KafkaProducer[String, Player](producerConfig.asJava)
+  @Bean
+  def playerProducerFactory = new KafkaProducer[String, Player](producerConfig.asJava)
+
+  @Bean
+  def gameProducerFactory = new KafkaProducer[String, Game](producerConfig.asJava)
 
   @Bean
   def mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter = {
