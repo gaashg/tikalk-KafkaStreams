@@ -3,9 +3,9 @@ package com.tikalk.kafkastreams.web.config
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.tikalk.kafkastreams.common.model.{Game, Player}
+import com.tikalk.kafkastreams.common.utils.JsonSerializer
 import org.apache.kafka.clients.producer.KafkaProducer
-import org.apache.kafka.common.serialization.{IntegerSerializer, StringSerializer}
-import org.apache.kafka.connect.json.JsonSerializer
+import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
