@@ -2,9 +2,7 @@ package com.tikalk.kafkastreams.web.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
-import com.tikalk.kafkastreams.common.model.Player
-import org.apache.kafka.common.serialization.StringSerializer
-import org.apache.kafka.connect.json.JsonSerializer
+import org.apache.kafka.common.serialization.{IntegerSerializer, StringSerializer}
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
@@ -24,31 +22,30 @@ class KafkaStreamsConfig {
 
   @Bean def producerConfig: Map[String, AnyRef] = {
     Map(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG -> bootstrapServers,
-      ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG -> classOf[StringSerializer],
-      ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG -> classOf[JsonSerializer],
-      ProducerConfig.CLIENT_ID_CONFIG ->  "ScalaProducerExample",
+      ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG -> classOf[IntegerSerializer],
+      ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG -> classOf[StringSerializer],
       ProducerConfig.MAX_BLOCK_MS_CONFIG -> Int.box(5000)
     )
   }
 
-  import org.springframework.context.annotation.Bean
-
-  import scala.collection.JavaConverters._
-
-  @Bean def playerProducerFactory = new DefaultKafkaProducerFactory[String, Player](producerConfig.asJava)
-
-  @Bean def playerKafkaTemplate = new KafkaTemplate[String, Player](playerProducerFactory)
-
-  import org.springframework.context.annotation.Bean
-
-  @Bean
-  def mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter = {
-    val mapping = new MappingJackson2HttpMessageConverter
+  @Bean def objectMapper(): ObjectMapper = {
     val objectMapper = new ObjectMapper()
     objectMapper.registerModule(DefaultScalaModule)
     import com.fasterxml.jackson.databind.DeserializationFeature
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-    mapping.setObjectMapper(objectMapper)
+    objectMapper
+  }
+
+  import org.springframework.context.annotation.Bean
+
+  @Bean def producerFactory = new DefaultKafkaProducerFactory[Integer, String](producerConfig.asJava)
+
+  @Bean def kafkaTemplate = new KafkaTemplate[Integer, String](producerFactory)
+
+  @Bean
+  def mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter = {
+    val mapping = new MappingJackson2HttpMessageConverter
+    mapping.setObjectMapper(objectMapper())
     mapping
   }
 
