@@ -20,7 +20,7 @@ class QuoteController {
   @ResponseBody
   def addQuote(@RequestBody quote: Quote): ActionResult = {
     println(s"Input: $quote")
-    new ActionResult(true, ActionType.ADD_NEW_QUOTE, null, AnyRef)
+    ActionResult(true, ActionType.ADD_NEW_QUOTE, null, AnyRef)
   }
 
 }
