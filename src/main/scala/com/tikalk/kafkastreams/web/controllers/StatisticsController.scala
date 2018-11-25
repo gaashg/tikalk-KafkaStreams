@@ -15,6 +15,7 @@ class StatisticsController {
   @ResponseBody
   def getPlayersStatistics () : ActionResult = {
     val statistics = statisticsService.getPlayersStatistics()
-    ActionResult(true, ActionType.GET_PLAYERS_STATISTICS, null, statistics)
+    print("statistics: " + statistics)
+    ActionResult(true, ActionType.GET_PLAYERS_STATISTICS, "", statistics)
   }
 }

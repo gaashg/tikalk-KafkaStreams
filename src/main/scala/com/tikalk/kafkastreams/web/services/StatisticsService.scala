@@ -11,7 +11,7 @@ class StatisticsService {
   @Resource
   private val statisticsStreamsService : StatisticsStreamsService = null
   private val logger : Logger = LoggerFactory.getLogger(classOf[StatisticsService])
-  def getPlayersStatistics(): Unit = {
+  def getPlayersStatistics(): PlayersStatistics = {
     PlayersStatistics(statisticsStreamsService.agesMap)
   }
 }
