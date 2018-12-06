@@ -21,7 +21,7 @@ class PlayerController {
     val player = new Player(UUIDGenerator.generateUUID, System.currentTimeMillis(), name, age)
     producerFactory.send(new ProducerRecord[String, Player](Player.TOPIC_NAME, player.id, player))
     println(s"in create new player $name")
-    new ActionResult(true, ActionType.ADD_NEW_QUOTE, player.toString, AnyRef)
+    ActionResult(true, ActionType.ADD_NEW_QUOTE, player.toString, AnyRef)
 
   }
 }

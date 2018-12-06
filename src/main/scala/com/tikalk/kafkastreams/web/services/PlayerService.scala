@@ -4,7 +4,7 @@ import java.util.Properties
 import java.util.concurrent.TimeUnit
 
 import com.tikalk.kafkastreams.common.model.Player
-import com.tikalk.kafkastreams.web.config.PlayerEntitySerde
+import com.tikalk.kafkastreams.common.serdes.PlayerSerde
 import javax.annotation.PostConstruct
 import org.apache.kafka.common.serialization.Serde
 import org.apache.kafka.streams.KafkaStreams
@@ -30,7 +30,7 @@ class PlayerService {
 
 
     val builder = new StreamsBuilder()
-    implicit val playerSerde: Serde[Player] = new PlayerEntitySerde
+    implicit val playerSerde: Serde[Player] = new PlayerSerde
 
 //    val players: KStream[String, Player] = builder.stream[String, Player](Player.TOPIC_NAME)
     //    players.print(Printed.toSysOut)

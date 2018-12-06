@@ -1,17 +1,15 @@
 package com.tikalk.kafkastreams.web.controllers
 
-import javax.annotation.Resource
-
-import com.tikalk.kafkastreams.web.enums.ActionType
 import com.tikalk.kafkastreams.common.model.{ActionResult, Quote}
-import javax.validation.Valid
-import javax.validation.constraints.NotNull
-
 import com.tikalk.kafkastreams.web.services.QuoteService
+import javax.annotation.Resource
+import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.web.bind.annotation.{PostMapping, RequestBody, ResponseBody, RestController}
 
 @RestController
 class QuoteController {
+
+  private val logger : Logger = LoggerFactory.getLogger(classOf[QuoteController])
 
   @Resource
   private val quoteService : QuoteService = null
@@ -19,8 +17,8 @@ class QuoteController {
   @PostMapping(value = Array("/quote"))
   @ResponseBody
   def addQuote(@RequestBody quote: Quote): ActionResult = {
-    println(s"Input: $quote")
-    ActionResult(true, ActionType.ADD_NEW_QUOTE, null, AnyRef)
+    logger.info("Received quote: {}", quote)
+    quoteService.addNewQuote(quote)
   }
 
 }

@@ -1,12 +1,11 @@
-package com.tikalk.kafkastreams.web.config
+package com.tikalk.kafkastreams.common.serdes
 
 import java.util
 
-import com.tikalk.kafkastreams.common.model.{BaseEntity, Player}
-import com.tikalk.kafkastreams.common.utils.{JsonSerializer, PlayerJsonDeserializer}
+import com.tikalk.kafkastreams.common.model.Player
 import org.apache.kafka.common.serialization.{Deserializer, Serde, Serializer}
 
-class PlayerEntitySerde extends Serde[Player]{
+class PlayerSerde extends Serde[Player]{
   override def configure(configs: util.Map[String, _], isKey: Boolean): Unit = {}
 
   override def close(): Unit = {}

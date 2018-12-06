@@ -5,11 +5,12 @@ import java.util.Properties
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.tikalk.kafkastreams.common.model.{BaseEntity, Game, Player}
-import com.tikalk.kafkastreams.common.utils.JsonSerializer
+import com.tikalk.kafkastreams.common.serdes.JsonSerializer
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.common.serialization.StringSerializer
+import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.context.annotation.ComponentScan
+import org.springframework.context.annotation.{ComponentScan, Scope}
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 
 
@@ -24,7 +25,9 @@ class KafkaStreamsConfig {
   import org.apache.kafka.clients.producer.ProducerConfig
   import org.springframework.context.annotation.Bean
 
-  @Bean def producerConfig: Properties = {
+  @Bean
+  @Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
+  def producerConfig: Properties = {
     val prop = new Properties()
     prop.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
     prop.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, classOf[StringSerializer])
