@@ -30,7 +30,7 @@ class QuoteService {
     if (valid) {
       quote.id = UUIDGenerator.generateUUID
       quote.creationDate = System.currentTimeMillis()
-      
+
       kafkaService.sendMessage(quote.id, quote)
       ActionResult(true, ActionType.ADD_NEW_QUOTE, null, quote)
     }
