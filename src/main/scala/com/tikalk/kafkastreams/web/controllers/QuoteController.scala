@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.{PostMapping, RequestBody, Respon
 @RestController
 class QuoteController {
 
-  private val logger : Logger = LoggerFactory.getLogger(classOf[QuoteController])
+  private val _logger : Logger = LoggerFactory.getLogger(classOf[QuoteController])
 
   @Resource
-  private val quoteService : QuoteService = null
+  private val _quoteService : QuoteService = null
 
   @PostMapping(value = Array("/quote"))
   @ResponseBody
   def addQuote(@RequestBody quote: Quote): ActionResult = {
-    logger.info("Received quote: {}", quote)
-    quoteService.addNewQuote(quote)
+    _logger.info("Received quote: {}", quote)
+    _quoteService.addNewQuote(quote)
   }
 
 }

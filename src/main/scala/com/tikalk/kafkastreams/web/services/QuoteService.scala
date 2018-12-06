@@ -12,12 +12,12 @@ import org.springframework.stereotype.Component
 @Component("quoteService")
 class QuoteService {
 
-  private val logger: Logger = LoggerFactory.getLogger(classOf[QuoteService])
+  private val _logger: Logger = LoggerFactory.getLogger(classOf[QuoteService])
   @Resource
-  private val quoteValidator : Validator [Quote] = null
+  private val _quoteValidator: Validator[Quote] = null
 
-  @Resource
-  private val kafkaService : KafkaProducerService[String, Quote] = null
+  @Resource(name = "quoteKafkaProducer")
+  private val _kafkaProducer: KafkaProducerService[String, Quote] = null
 
   def addNewQuote(line: String, character: String, season: String, episode: String): ActionResult = {
     val quote = new Quote(UUIDGenerator.generateUUID, System.currentTimeMillis(), line, character, season, episode)
@@ -25,13 +25,13 @@ class QuoteService {
   }
 
   def addNewQuote(quote: Quote): ActionResult = {
-    val valid = quoteValidator.validate(quote)
+    val valid = _quoteValidator.validate(quote)
 
     if (valid) {
       quote.id = UUIDGenerator.generateUUID
       quote.creationDate = System.currentTimeMillis()
 
-      kafkaService.sendMessage(quote.id, quote)
+      _kafkaProducer.sendMessage(quote.id, quote)
       ActionResult(true, ActionType.ADD_NEW_QUOTE, null, quote)
     }
     else

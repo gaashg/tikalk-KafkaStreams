@@ -1,4 +1,4 @@
-package com.tikalk.kafkastreams.web.config
+package com.tikalk.kafkastreams.common.config
 
 import java.util.Properties
 
