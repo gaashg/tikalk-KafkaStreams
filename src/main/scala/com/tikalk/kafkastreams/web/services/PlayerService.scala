@@ -1,7 +1,7 @@
 package com.tikalk.kafkastreams.web.services
 
 import com.tikalk.kafkastreams.common.kafka.KafkaProducerService
-import com.tikalk.kafkastreams.common.model.{ActionResult, Player}
+import com.tikalk.kafkastreams.common.model.{ActionResult, Player, PlayerConfig}
 import com.tikalk.kafkastreams.common.utils.UUIDGenerator
 import com.tikalk.kafkastreams.web.enums.ActionType
 import com.tikalk.kafkastreams.web.validations.PlayerValidator
@@ -23,6 +23,9 @@ class PlayerService {
     if (_validator.validate(player)) {
       player.id = UUIDGenerator.generateUUID
       player.creationDate = System.currentTimeMillis()
+
+      if (player.config == null)
+        player.config = new PlayerConfig(false, true, true)
 
       _kafkaProducer.sendMessage(player.id, player)
       new ActionResult(true, ActionType.ADD_NEW_PLAYER, null, player)
